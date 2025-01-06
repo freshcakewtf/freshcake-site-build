@@ -1,4 +1,4 @@
-'''plaintext
+```plaintext
 
 project-root/
 │
