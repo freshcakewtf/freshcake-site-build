@@ -13,12 +13,12 @@
 
     @font-face {
       font-family: 'Roboto Black';
-      src: url('/lib/fonts/Roboto-Black.ttf') format('truetype');
+      src: url('lib/fonts/Roboto-Black.ttf') format('truetype');
     }
 
     @font-face {
       font-family: 'Roboto Medium';
-      src: url('/lib/fonts/Roboto-Medium.ttf') format('truetype');
+      src: url('lib/fonts/Roboto-Medium.ttf') format('truetype');
     }
 
     body {
@@ -202,7 +202,7 @@
   <section class="text-container">
     <h1>SHARE A BYTE WITH YOUR FRIENDS</h1>
     <h2>wicked short cartoons to react, laugh, and spark conversation with.</h2>
-    <h3>Click a gif to copy a share link to your clipboard.</h3>
+    <p>Click a gif to copy a share link to your clipboard.</p>
   </section>
 
   <div class="loading">Loading GIFs...</div>
@@ -221,7 +221,7 @@
   </footer>
 
   <script>
-    const csvFilePath = '/lib/docs/GIPHY_freshcake.csv';
+    const csvFilePath = 'lib/docs/GIPHY_freshcake.csv';
     const gifGrid = document.getElementById('gif-grid');
     const toggleSwitch = document.getElementById('toggle_switch');
     let contentType = 'GIF';
