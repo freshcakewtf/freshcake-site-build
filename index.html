@@ -1,25 +1,302 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World</title>
-    <style>
-        body {
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
-        }
-        h1 {
-            color: #333;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fresh Cake - Masonry Layout</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+  <style>
+    @font-face {
+      font-family: 'Anton';
+      src: url('/lib/fonts/Anton-Regular.ttf') format('truetype');
+    }
+
+    @font-face {
+      font-family: 'Roboto Black';
+      src: url('/lib/fonts/Roboto-Black.ttf') format('truetype');
+    }
+
+    @font-face {
+      font-family: 'Roboto Medium';
+      src: url('/lib/fonts/Roboto-Medium.ttf') format('truetype');
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Roboto Medium', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #252227, #1a1a1a, #111);
+      color: #f7f7f7;
+    }
+
+    .toggle-container {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: flex;
+      gap: 5px;
+    }
+
+    /* Checkbox Styles */
+    input[type="checkbox"] {
+      width: 0;
+      height: 0;
+      visibility: hidden;
+    }
+
+    label {
+      display: block;
+      width: 60px;
+      height: 30px;
+      background-color: #e2f5e0;
+      border-radius: 100px;
+      position: relative;
+      cursor: pointer;
+      transition: 0.5s;
+    }
+
+    label:before {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 24px;
+      height: 24px;
+      background-color: #241a25;
+      border-radius: 50%;
+      transition: 0.5s;
+    }
+
+    input[type="checkbox"]:checked + label {
+      background-color: #b39ba8;
+    }
+
+    input[type="checkbox"]:checked + label:before {
+      transform: translateX(30px);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 10px;
+    }
+
+    .logo-placeholder {
+      font-size: 24px;
+      font-family: 'Anton', Arial, sans-serif;
+    }
+
+    .header a {
+      color: #f7f7f7;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .hero-image {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 500px;
+      margin: 50px 0 10px;
+    }
+
+    .hero-image img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .text-container {
+      text-align: center;
+      padding: 0;
+    }
+
+    .text-container h1 {
+      font-size: 55px;
+      letter-spacing: 2px;
+      margin: 10px 0;
+      font-family: 'Anton', Arial, sans-serif;
+    }
+
+    .text-container h2 {
+      font-size: 22px;
+      margin: 0 0 75px;
+      font-family: 'Roboto Medium', sans-serif;
+    }
+
+    .masonry-grid {
+      column-count: 3;
+      column-gap: 10px;
+      padding: 10px;
+      max-width: 950px;
+      margin: 0 auto;
+    }
+
+    .grid-item {
+      margin-bottom: 10px;
+      break-inside: avoid;
+      overflow: hidden;
+      border-radius: 8px;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .grid-item img {
+      width: 100%;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .grid-item img:hover {
+      transform: scale(1.1);
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      padding: 20px;
+    }
+
+    .social-icons img {
+      width: 40px;
+      height: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .masonry-grid {
+        column-count: 2;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .masonry-grid {
+        column-count: 1;
+      }
+    }
+
+    .loading {
+      text-align: center;
+      padding: 20px;
+      font-size: 18px;
+      color: #f7f7f7;
+      display: none;
+    }
+  </style>
 </head>
 <body>
-    <h1>Hello, World!</h1>
+  <header class="header">
+    <div class="logo"></div>
+    <nav>
+      <a href="about.html">A Word From Our Sponsor</a>
+      <a href="mailto:Gaetan@freshcake.wtf">Say Hello</a>
+    </nav>
+  </header>
+
+  <section class="hero-image">
+    <img src="lib/images/Logo_Temp.png" alt="Hero Image">
+  </section>
+
+  <section class="text-container">
+    <h1>SHARE A BYTE WITH YOUR FRIENDS</h1>
+    <h2>wicked short cartoons to react, laugh, and spark conversation with.</h2>
+    <h3>Click a gif to copy a share link to your clipboard.</h3>
+  </section>
+
+  <div class="loading">Loading GIFs...</div>
+
+  <div class="toggle-container">
+    <input id="toggle_switch" name="toggle_switch" type="checkbox" />
+    <label for="toggle_switch"></label>
+  </div>
+
+  <div class="masonry-grid" id="gif-grid"></div>
+
+  <footer class="social-icons">
+    <img src="https://via.placeholder.com/40" alt="YouTube">
+    <img src="https://via.placeholder.com/40" alt="Giphy">
+    <img src="https://via.placeholder.com/40" alt="Other">
+  </footer>
+
+  <script>
+    const csvFilePath = '/lib/docs/GIPHY_freshcake.csv';
+    const gifGrid = document.getElementById('gif-grid');
+    const toggleSwitch = document.getElementById('toggle_switch');
+    let contentType = 'GIF';
+
+    async function loadGifsFromCsv() {
+      try {
+        const response = await fetch(csvFilePath);
+        if (!response.ok) throw new Error('Network response was not ok');
+        const csvText = await response.text();
+
+        Papa.parse(csvText, {
+          header: true,
+          skipEmptyLines: true,
+          complete: (results) => {
+            const gifData = results.data;
+            filterAndLoadContent(gifData);
+          }
+        });
+      } catch (error) {
+        console.error('Failed to load CSV:', error);
+      }
+    }
+
+    function createGifItem(contentUrl, imageUrl) {
+      const gifItem = document.createElement('div');
+      gifItem.className = 'grid-item';
+      gifItem.innerHTML = `<img src="${imageUrl}" alt="${contentType} from Fresh Cake">`;
+
+      gifItem.addEventListener('click', () => {
+        navigator.clipboard.writeText(contentUrl)
+          .then(() => alert('Content URL copied to clipboard!'))
+          .catch((err) => console.error('Error copying content_url:', err));
+      });
+
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = 1;
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      observer.observe(gifItem);
+
+      return gifItem;
+    }
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function filterAndLoadContent(gifData) {
+      const filteredData = gifData.filter(item => item.content_type.includes(contentType));
+      const shuffledData = shuffleArray(filteredData);
+
+      gifGrid.innerHTML = '';
+      shuffledData.forEach(item => {
+        const gifItem = createGifItem(item.content_url, item.media_url);
+        gifGrid.appendChild(gifItem);
+      });
+
+      document.querySelector('.loading').style.display = 'none';
+    }
+
+    toggleSwitch.addEventListener('change', () => {
+      contentType = toggleSwitch.checked ? 'STICKER' : 'GIF';
+      document.querySelector('.loading').style.display = 'block';
+      loadGifsFromCsv();
+    });
+
+    loadGifsFromCsv();
+  </script>
 </body>
 </html>
