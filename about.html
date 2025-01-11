@@ -22,75 +22,74 @@
 
     body {
       margin: 0;
+      padding: 0;
       font-family: 'Roboto Medium', sans-serif;
       min-height: 100vh;
-      background: linear-gradient(to bottom, #252227, #1a1a1a, #111);
+      background: linear-gradient(to bottom, #252227, #1a1a1a);
       color: #f7f7f7;
     }
 
-    .header {
+    .toggle-container {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 10px 10px;
+      justify-content: space-between; /* Ensures items are spaced between edges */
+      padding: 40px 20px;
+      height: 50px;
+      box-sizing: border-box;
     }
 
-    .header a {
-      color: #f7f7f7;
-      text-decoration: none;
-      margin: 0 10px;
-    }
-
-    .hero-image {
-      position: relative;
+    nav {
       display: flex;
+      gap: 15px;
+      margin-left: auto; /* Pushes the nav links to the right */
+    }
+
+    nav a {
+      display: inline-flex;
+      align-items: center;
       justify-content: center;
-      align-items: center;
-      height: 300px;
-      margin: 50px 0 10px;
+      color: #1a1a1a;
+      text-decoration: none;
+      font-size: 14px;
+      padding: 10px 12px;
+      background-color: #e5d0c1;
+      border-radius: 100px;
+      border: #111 solid 2.5px;
+      filter: drop-shadow(1px 3px 0px #000);
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    .hero-image img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
+    nav a:hover {
+      background-color: #f7f7f7;
+      color: #252227;
     }
 
-    .text-container {
-      text-align: center;
-      padding: 0;
-    }
-
-    .text-container h1 {
-      font-size: 55px;
-      letter-spacing: 2px;
-      margin: 10px 0;
-      font-family: 'Anton', Arial, sans-serif;
-    }
-
-    .text-container h2 {
-      font-size: 22px;
-      margin: 0 0 50px;
-      font-family: 'Roboto Medium', sans-serif;
-    }
-
-    .about-section {
+    .about-container {
       max-width: 800px;
-      margin: 50px auto;
+      margin: 40px auto;
       padding: 20px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+      font-family: 'Roboto Medium', sans-serif;
+      line-height: 1.8;
+      font-size: 16px;
     }
 
-    .about-section h2 {
-      font-size: 30px;
-      margin-bottom: 20px;
-      font-family: 'Anton', Arial, sans-serif;
+    .about-container h1 {
+      font-family: 'Roboto Black', sans-serif;
+      font-size: 32px;
       text-align: center;
+      margin-bottom: 20px;
     }
 
-    .about-section p {
-      font-size: 18px;
-      line-height: 1.6;
-      margin: 10px 0;
+    .about-container p {
+      margin-bottom: 20px;
+    }
+
+    footer {
+      text-align: center;
+      margin: 40px 0;
     }
 
     .social-icons {
@@ -104,38 +103,46 @@
       width: 40px;
       height: 40px;
     }
+
+    .bug-logo {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      width: 60px;
+      height: 60px;
+      z-index: 1000;
+      opacity: 0.75;
+      transition: opacity 0.3s ease;
+    }
+
+    .bug-logo:hover {
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="logo"></div>
+  <div class="toggle-container">
     <nav>
-      <a href="index.html">Gifs and Stuff</a>
+      <a href="index.html">Home</a>
       <a href="mailto:Gaetan@freshcake.wtf">Say Hello</a>
     </nav>
-  </header>
+  </div>
 
-  <section class="hero-image">
-    <img src="lib/images/Logo_Temp.png" alt="Hero Image">
-  </section>
-
-  <section class="text-container">
-    <h1>WHAT MAKES A FRESH CAKE?</h1>
-    <h2>From a random collection of illustrations to a means of connection</h2>
-  </section>
-
-  <section class="about-section">
+  <div class="about-container">
+    <h1>About Fresh Cake</h1>
     <p>Fresh Cake is the digital equivalent of passing a funny note in class—it’s a collection of animated cartoons designed to make people laugh, react, and share. At its heart, Fresh Cake is all about reactionary humor. You know, those moments when words just don’t cut it.</p>
     <p>These animations thrive in group chats and light up social media. Think quirky, expressive characters and moments so relatable you can’t help but share them. (They might even help you win an argument—just saying.)</p>
     <p>Behind Fresh Cake is me—a digital artist with a passion for crafting fun, shareable animations. With over 15 years of experience in digital media, I’ve worked on everything from GIFs to YouTube content, including an incredible day job at Nickelodeon. When I’m not animating, you’ll find me playing video games, skiing, or indulging in a serious ice cream habit. Making cartoons might seem chaotic, but I wouldn’t have it any other way.</p>
     <p>Oh, and my Fresh Cake GIFs have over 2.4 billion views on Giphy. Does that make me internet famous? Probably not, but it’s fun to pretend.</p>
     <p>So, if you’re into clever animations, digital high-fives, or just want a reason to laugh, Fresh Cake is here for you. Go ahead—share a byte. 😊</p>
-  </section>
+  </div>
 
   <footer class="social-icons">
     <img src="https://via.placeholder.com/40" alt="YouTube">
     <img src="https://via.placeholder.com/40" alt="Giphy">
     <img src="https://via.placeholder.com/40" alt="Other">
   </footer>
+
+  <img src="lib/images/Fresh-Cake-Bug.png" alt="Fresh Cake Logo" class="bug-logo">
 </body>
 </html>
