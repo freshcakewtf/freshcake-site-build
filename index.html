@@ -39,19 +39,35 @@
       box-sizing: border-box;
     }
 
+    .toggle-wrapper {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-buttons {
+    position: absolute; /* Absolute positioning */
+    top: 20px; /* Distance from the top */
+    right: 20px; /* Distance from the right */
+    display: flex;
+    gap: 10px; /* Spacing between buttons */
+  }
+
+
     nav {
       display: flex;
-      gap: 15px;
+      align-items: center;
+      justify-content: space-between; /* Push toggle to the left, buttons to the right */
     }
 
     nav a {
+      margin: 0;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       color: #1a1a1a;
       text-decoration: none;
       font-size: 14px;
-      padding: 10px 12px;
+      padding: 8px 10px;
       background-color: #e5d0c1;
       border-radius: 100px;
       border: #111 solid 2.5px;
@@ -112,6 +128,7 @@
     }
 
     .grid-item {
+      position: relative;
       margin-bottom: 10px;
       break-inside: avoid;
       overflow: hidden;
@@ -124,11 +141,30 @@
     .grid-item img {
       width: 100%;
       display: block;
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, filter 0.3s ease;
     }
 
     .grid-item img:hover {
       transform: scale(1.1);
+      filter: brightness(0.5); /* Darken the image on hover */
+    }
+
+    .view-count-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-family: 'Roboto Black', sans-serif;
+      font-size: 18px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .grid-item:hover .view-count-overlay {
+      opacity: 1;
     }
 
     /* View Count Styles */
@@ -151,12 +187,16 @@
       opacity: 0.75;
     }
 
+    #main-content-type {
+      opacity: 0; /* Adjust the value between 0 (fully transparent) and 1 (fully opaque) */
+    }
+
     .view-count-container {
       background-color: #a5aba8;
       border: #111 solid 2.5px;
       filter: drop-shadow( 1px 3px 0px #000);
       color: #1a1a1a;
-      padding: 10px 20px;
+      padding: 8px 12px;
       border-radius: 100px;
       font-family: 'Roboto Black', sans-serif;
       font-size: 16px;
@@ -172,8 +212,11 @@
     }
 
     .social-icons img {
-      width: 40px;
-      height: 40px;
+      height: 25px; /* Fixed height */
+      width: auto; /* Scales proportionally */
+      display: block; /* Removes extra inline space */
+      padding-bottom: 10px;
+      opacity: .75;
     }
 
     .bug-logo {
@@ -187,10 +230,6 @@
       transition: opacity 0.3s ease;
     }
 
-    .bug-logo:hover {
-      opacity: 1;
-    }
-
     @media (max-width: 768px) {
       .masonry-grid {
         column-count: 2;
@@ -199,7 +238,7 @@
 
     @media (max-width: 480px) {
       .masonry-grid {
-        column-count: 1;
+        column-count: 2;
       }
     }
 
@@ -214,17 +253,19 @@
 </head>
 <body>
   <div class="toggle-container">
-    <div>
-      <input id="toggle_switch" name="toggle_switch" type="checkbox" />
-      <label for="toggle_switch"></label>
-    </div>
     <nav>
-      <a href="about.html">What is This?</a>
-      <a href="mailto:Gaetan@freshcake.wtf">Say Hello</a>
+      <div class="toggle-wrapper">
+        <input id="toggle_switch" name="toggle_switch" type="checkbox" />
+        <label for="toggle_switch"></label>
+      </div>
+      <div class="nav-buttons">
+        <a href="about.html">What is This?</a>
+        <a href="mailto:Gaetan@freshcake.wtf?subject=(Your Company Name Here): (Project Title Here)&body=Thanks for your interest in my work! Please format your subject as shown; it helps me keep track. You can remove this text now.">Say Hello</a>
+      </div>
     </nav>
   </div>
 
-  <div class="loading">Loading GIFs...</div>
+  <div class="loading">Loading up junk...</div>
 
   <div class="masonry-grid" id="gif-grid"></div>
 
@@ -240,9 +281,15 @@
   </div>
 
   <footer class="social-icons">
-    <img src="https://via.placeholder.com/40" alt="YouTube">
-    <img src="https://via.placeholder.com/40" alt="Giphy">
-    <img src="https://via.placeholder.com/40" alt="Other">
+    <a href="https://giphy.com/freshcake" target="_blank" rel="noopener noreferrer">
+      <img src="lib/images/GIPHY Icon.svg" alt="Giphy">
+    </a>
+    <a href="https://github.com/freshcakewtf" target="_blank" rel="noopener noreferrer">
+      <img src="lib/images/github-mark-white.svg" alt="Github">
+    </a>
+    <a href="https://www.youtube.com/@freshcake" target="_blank" rel="noopener noreferrer">
+      <img src="lib/images/yt_logo_pms_mono_light.svg" alt="YouTube">
+    </a>
   </footer>
 
   <img src="lib/images/Fresh-Cake-Bug.png" alt="Fresh Cake Logo" class="bug-logo">
@@ -255,6 +302,7 @@
     const viewContentTypeLabel = document.getElementById('content-type');
     let contentType = 'GIF'; // Default to GIF
 
+    // Function to load GIF data from CSV
     async function loadGifsFromCsv() {
       try {
         const response = await fetch(csvFilePath);
@@ -265,28 +313,41 @@
           header: true,
           skipEmptyLines: true,
           complete: (results) => {
+            console.log(Object.keys(results.data[0])); // Debug column names
             const gifData = results.data;
             filterAndLoadContent(gifData);
-          }
+          },
         });
       } catch (error) {
         console.error('Failed to load CSV:', error);
       }
     }
 
-    function createGifItem(contentUrl, imageUrl) {
+    // Function to create a GIF grid item
+    function createGifItem(contentUrl, imageUrl, viewCount) {
       const gifItem = document.createElement('div');
       gifItem.className = 'grid-item';
-      gifItem.innerHTML = `<img src="${imageUrl}" alt="${contentType} from Fresh Cake">`;
 
+      // Safeguard and format view count
+      const sanitizedViewCount = parseInt((viewCount || '0').trim(), 10);
+      const formattedViewCount = formatViews(sanitizedViewCount);
+
+      gifItem.innerHTML = `
+        <img src="${imageUrl}" alt="${contentType} from Fresh Cake">
+        <div class="view-count-overlay">${formattedViewCount} views</div>
+      `;
+
+      // Add click-to-copy functionality
       gifItem.addEventListener('click', () => {
-        navigator.clipboard.writeText(contentUrl)
+        navigator.clipboard
+          .writeText(contentUrl)
           .then(() => alert('Content URL copied to clipboard!'))
           .catch((err) => console.error('Error copying content_url:', err));
       });
 
+      // Lazy-load opacity effect
       const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.style.opacity = 1;
             observer.unobserve(entry.target);
@@ -298,6 +359,7 @@
       return gifItem;
     }
 
+    // Shuffle array (to randomize content)
     function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -306,39 +368,42 @@
       return array;
     }
 
-    let totalViews = 0;
-
+    // Format view count
     function formatViews(views) {
-      if (views >= 1000000000) {
-        return (views / 1000000000).toFixed(1) + 'b';
-      } else if (views >= 1000000) {
-        return (views / 1000000).toFixed(1) + 'm';
-      } else if (views >= 1000) {
-        return (views / 1000).toFixed(1) + 'k';
-      } else {
-        return views.toString();
-      }
+      if (isNaN(views)) return '0'; // Handle NaN
+      if (views >= 1000000000) return (views / 1000000000).toFixed(1) + 'b';
+      if (views >= 1000000) return (views / 1000000).toFixed(1) + 'm';
+      if (views >= 1000) return (views / 1000).toFixed(1) + 'k';
+      return views.toString();
     }
 
+    // Filter and load content into the grid
     function filterAndLoadContent(gifData) {
-      const filteredData = gifData.filter(item => item.content_type.includes(contentType));
+      // Filter based on content type
+      const filteredData = gifData.filter((item) =>
+        item.content_type.includes(contentType)
+      );
       const shuffledData = shuffleArray(filteredData);
 
-      gifGrid.innerHTML = '';
-      totalViews = 0;
-      shuffledData.forEach(item => {
-        const gifItem = createGifItem(item.content_url, item.media_url);
+      gifGrid.innerHTML = ''; // Clear the grid
+      let totalViews = 0;
+
+      shuffledData.forEach((item) => {
+        console.log(`content_url: ${item.content_url}, view_count: ${item.view_count}`); // Debug view count
+        const gifItem = createGifItem(item.content_url, item.media_url, item.view_count);
         gifGrid.appendChild(gifItem);
 
-        totalViews += parseInt(item.view_count, 10) || 0;
+        totalViews += parseInt(item.view_count, 10) || 0; // Aggregate total views
       });
 
+      // Update total view count display
       const formattedViews = formatViews(totalViews);
       document.getElementById('view-count').textContent = `${formattedViews} views`;
 
-      document.querySelector('.loading').style.display = 'none';
+      document.querySelector('.loading').style.display = 'none'; // Hide loading message
     }
 
+    // Toggle between GIFs and Stickers
     toggleSwitch.addEventListener('change', () => {
       contentType = toggleSwitch.checked ? 'STICKER' : 'GIF';
       mainContentTypeLabel.textContent = toggleSwitch.checked ? 'Stickers' : 'GIFs';
