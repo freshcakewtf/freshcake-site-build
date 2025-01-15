@@ -3,7 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fresh Cake - Masonry Layout</title>
+  <title>Fresh Cake - Share a Bite</title>
+
+  <!-- SEO Metadata -->
+  <meta name="description" content="Fresh Cake creates vibrant and shareable GIFs that spark reactions and joy. Browse a unique collection designed for fun and engagement.">
+  <meta name="keywords" content="GIFs, shareable content, reaction GIFs, animated stickers, Fresh Cake, digital art, creative animations">
+  <meta name="author" content="Fresh Cake">
+  <meta name="robots" content="index, follow">
+  <meta name="googlebot" content="index, follow">
+
+  <!-- Open Graph Metadata -->
+  <meta property="og:title" content="Fresh Cake - Shareable and Reactable GIFs">
+  <meta property="og:description" content="Explore Fresh Cake's GIF collection designed to make your conversations vibrant and engaging. React, share, and express yourself!">
+  <meta property="og:image" content="lib/images/Bounce.GIF">
+  <meta property="og:url" content="https://freshcake.wtf">
+  <meta property="og:type" content="website">
+
+  <!-- Other Metadata -->
+  <meta property="og:locale" content="en_US">
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   <style>
     @font-face {
@@ -205,18 +223,32 @@
     }
 
     .social-icons {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      padding: 20px;
+    text-align: center; /* Centers all content inside the footer */
+    padding: 20px; /* Adds some space around the footer */
+    color: #fff; /* Text color for the copyright */
+    }
+
+    .social-icons .social-links {
+        display: flex;
+        justify-content: center; /* Centers the icons horizontally */
+        gap: 15px; /* Adds space between the icons */
+        margin-bottom: 10px; /* Adds space between the icons and the footer text */
     }
 
     .social-icons img {
-      height: 25px; /* Fixed height */
-      width: auto; /* Scales proportionally */
-      display: block; /* Removes extra inline space */
-      padding-bottom: 10px;
-      opacity: .75;
+        width: 32px; /* Adjusts icon size */
+        height: 32px;
+        transition: transform 0.3s; /* Adds hover effect */
+    }
+
+    .social-icons img:hover {
+        transform: scale(1.1); /* Slight zoom-in on hover */
+    }
+
+    .footer-text {
+        font-size: 12px; /* Adjust text size */
+        color: #bbb; /* Muted text color */
+        opacity: .25;
     }
 
     .bug-logo {
@@ -281,15 +313,18 @@
   </div>
 
   <footer class="social-icons">
-    <a href="https://giphy.com/freshcake" target="_blank" rel="noopener noreferrer">
-      <img src="lib/images/GIPHY Icon.svg" alt="Giphy">
-    </a>
-    <a href="https://github.com/freshcakewtf" target="_blank" rel="noopener noreferrer">
-      <img src="lib/images/github-mark-white.svg" alt="Github">
-    </a>
-    <a href="https://www.youtube.com/@freshcake" target="_blank" rel="noopener noreferrer">
-      <img src="lib/images/yt_logo_pms_mono_light.svg" alt="YouTube">
-    </a>
+      <div class="social-links">
+          <a href="https://giphy.com/freshcake" target="_blank" rel="noopener noreferrer">
+              <img src="lib/images/GIPHY Icon.svg" alt="Giphy">
+          </a>
+          <a href="https://github.com/freshcakewtf" target="_blank" rel="noopener noreferrer">
+              <img src="lib/images/github-mark-white.svg" alt="Github">
+          </a>
+          <a href="https://www.youtube.com/@freshcake" target="_blank" rel="noopener noreferrer">
+              <img src="lib/images/yt_logo_pms_mono_light.svg" alt="YouTube">
+          </a>
+      </div>
+      <div class="footer-text">© 2025 Fresh Cake LLC</div>
   </footer>
 
   <img src="lib/images/Fresh-Cake-Bug.png" alt="Fresh Cake Logo" class="bug-logo">
