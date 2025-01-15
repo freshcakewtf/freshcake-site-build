@@ -94,18 +94,32 @@
     }
 
     .social-icons {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      padding: 20px;
+    text-align: center; /* Centers all content inside the footer */
+    padding: 20px; /* Adds some space around the footer */
+    color: #fff; /* Text color for the copyright */
+    }
+
+    .social-icons .social-links {
+        display: flex;
+        justify-content: center; /* Centers the icons horizontally */
+        gap: 15px; /* Adds space between the icons */
+        margin-bottom: 10px; /* Adds space between the icons and the footer text */
     }
 
     .social-icons img {
-      height: 25px; /* Fixed height */
-      width: auto; /* Scales proportionally */
-      display: block; /* Removes extra inline space */
-      padding-bottom: 10px;
-      opacity: .75;
+        width: 32px; /* Adjusts icon size */
+        height: 32px;
+        transition: transform 0.3s; /* Adds hover effect */
+    }
+
+    .social-icons img:hover {
+        transform: scale(1.1); /* Slight zoom-in on hover */
+    }
+
+    .footer-text {
+        font-size: 12px; /* Adjust text size */
+        color: #bbb; /* Muted text color */
+        opacity: .25;
     }
 
     .bug-logo {
@@ -151,16 +165,19 @@
   </div>
 
   <footer class="social-icons">
-    <a href="https://giphy.com/freshcake" target="_blank" rel="noopener noreferrer">
-      <img src="lib/images/GIPHY Icon.svg" alt="Giphy">
-    </a>
-    <a href="https://github.com/freshcakewtf" target="_blank" rel="noopener noreferrer">
-      <img src="lib/images/github-mark-white.svg" alt="Github">
-    </a>
-    <a href="https://www.youtube.com/@freshcake" target="_blank" rel="noopener noreferrer">
-      <img src="lib/images/yt_logo_pms_mono_light.svg" alt="YouTube">
-    </a>
-  </footer>
+    <div class="social-links">
+        <a href="https://giphy.com/freshcake" target="_blank" rel="noopener noreferrer">
+            <img src="lib/images/GIPHY Icon.svg" alt="Giphy">
+        </a>
+        <a href="https://github.com/freshcakewtf" target="_blank" rel="noopener noreferrer">
+            <img src="lib/images/github-mark-white.svg" alt="Github">
+        </a>
+        <a href="https://www.youtube.com/@freshcake" target="_blank" rel="noopener noreferrer">
+            <img src="lib/images/yt_logo_pms_mono_light.svg" alt="YouTube">
+        </a>
+    </div>
+    <div class="footer-text">© 2025 Fresh Cake LLC</div>
+</footer>
 
   <img src="lib/images/Fresh-Cake-Bug.png" alt="Fresh Cake Logo" class="bug-logo">
 </body>
