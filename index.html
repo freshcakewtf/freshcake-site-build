@@ -13,7 +13,7 @@
   <meta name="googlebot" content="index, follow">
 
   <!-- Open Graph Metadata -->
-  <meta property="og:title" content="Fresh Cake - Shareable and Reactable GIFs">
+  <meta property="og:title" content="Fresh Cake - Share a Bite">
   <meta property="og:description" content="Explore Fresh Cake's GIF collection designed to make your conversations vibrant and engaging. React, share, and express yourself!">
   <meta property="og:image" content="lib/images/Bounce.GIF">
   <meta property="og:url" content="https://freshcake.wtf">
@@ -138,14 +138,17 @@
     }
 
     .masonry-grid {
-      column-count: 4;
-      column-gap: 10px;
-      padding: 0;
-      max-width: 900px;
-      margin: 20px auto 0;
-    }
+    column-count: 4;
+    column-gap: 10px;
+    padding: 0; /* Ensure no extra padding */
+    margin: 0 auto; /* Center the grid */
+    max-width: 900px; /* Keep the grid within bounds */
+    box-sizing: border-box; /* Ensure consistent sizing */
+  }
 
     .grid-item {
+      -webkit-column-break-inside: avoid;
+      display: inline-block; /* Ensures better alignment in Safari */
       position: relative;
       margin-bottom: 10px;
       break-inside: avoid;
@@ -251,6 +254,12 @@
         opacity: .25;
     }
 
+    .footer-link{
+      font-size: 12px; /* Adjust text size */
+      color: #ffffff; /* Muted text color */
+      opacity: .5;
+    }
+
     .bug-logo {
       position: fixed;
       bottom: 20px;
@@ -324,7 +333,9 @@
               <img src="lib/images/yt_logo_pms_mono_light.svg" alt="YouTube">
           </a>
       </div>
-      <div class="footer-text">© 2025 Fresh Cake LLC</div>
+      <div class="footer-text">
+        © 2025 Fresh Cake LLC | <a href="/Privacy.html" class="footer-link">Privacy</a>
+    </div>
   </footer>
 
   <img src="lib/images/Fresh-Cake-Bug.png" alt="Fresh Cake Logo" class="bug-logo">
