@@ -1,469 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fresh Cake - Share a Bite</title>
-
-  <!-- SEO Metadata -->
-  <meta name="description" content="Fresh Cake creates vibrant and shareable GIFs that spark reactions and joy. Browse a unique collection designed for fun and engagement.">
-  <meta name="keywords" content="GIFs, shareable content, reaction GIFs, animated stickers, Fresh Cake, digital art, creative animations">
-  <meta name="author" content="Fresh Cake">
-  <meta name="robots" content="index, follow">
-  <meta name="googlebot" content="index, follow">
-
-  <!-- Open Graph Metadata -->
-  <meta property="og:title" content="Fresh Cake - Share a Bite">
-  <meta property="og:description" content="Explore Fresh Cake's GIF collection designed to make your conversations vibrant and engaging. React, share, and express yourself!">
-  <meta property="og:image" content="lib/images/Bounce.GIF">
-  <meta property="og:url" content="https://freshcake.wtf">
-  <meta property="og:type" content="website">
-
-  <!-- Other Metadata -->
-  <meta property="og:locale" content="en_US">
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-  <style>
-    @font-face {
-      font-family: 'Anton';
-      src: url('lib/fonts/Anton-Regular.ttf') format('truetype');
-    }
-
-    @font-face {
-      font-family: 'Roboto Black';
-      src: url('lib/fonts/Roboto-Black.ttf') format('truetype');
-    }
-
-    @font-face {
-      font-family: 'Roboto Medium';
-      src: url('lib/fonts/Roboto-Medium.ttf') format('truetype');
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Roboto Medium', sans-serif;
-      min-height: 100vh;
-      background: linear-gradient(to bottom, #252227, #1a1a1a);
-      color: #f7f7f7;
-    }
-
-    .toggle-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 40px 20px;
-      height: 50px;
-      box-sizing: border-box;
-    }
-
-    .toggle-wrapper {
-      display: flex;
-      align-items: center;
-    }
-
-    .nav-buttons {
-    position: absolute; /* Absolute positioning */
-    top: 20px; /* Distance from the top */
-    right: 20px; /* Distance from the right */
-    display: flex;
-    gap: 10px; /* Spacing between buttons */
-  }
-
-
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between; /* Push toggle to the left, buttons to the right */
-    }
-
-    nav a {
-      margin: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: #1a1a1a;
-      text-decoration: none;
-      font-size: 14px;
-      padding: 8px 10px;
-      background-color: #e5d0c1;
-      border-radius: 100px;
-      border: #111 solid 2.5px;
-      filter: drop-shadow( 1px 3px 0px #000);
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    nav a:hover {
-      background-color: #f7f7f7;
-      color: #252227;
-    }
-
-    input[type="checkbox"] {
-      width: 0;
-      height: 0;
-      visibility: hidden;
-    }
-
-    label {
-      display: block;
-      width: 60px;
-      height: 30px;
-      background-color: #e2f5e0;
-      border: #111 solid 2.5px;
-      filter: drop-shadow( 1px 3px 0px #000);
-      border-radius: 100px;
-      position: relative;
-      cursor: pointer;
-      transition: 0.5s;
-    }
-
-    label:before {
-      content: '';
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      width: 24px;
-      height: 24px;
-      background-color: #241a25;
-      border-radius: 50%;
-      transition: 0.5s;
-    }
-
-    input[type="checkbox"]:checked + label {
-      background-color: #b39ba8;
-    }
-
-    input[type="checkbox"]:checked + label:before {
-      transform: translateX(30px);
-    }
-
-    .masonry-grid {
-    column-count: 4;
-    column-gap: 10px;
-    padding: 0; /* Ensure no extra padding */
-    margin: 0 auto; /* Center the grid */
-    max-width: 900px; /* Keep the grid within bounds */
-    box-sizing: border-box; /* Ensure consistent sizing */
-  }
-
-    .grid-item {
-      -webkit-column-break-inside: avoid;
-      display: inline-block; /* Ensures better alignment in Safari */
-      position: relative;
-      margin-bottom: 10px;
-      break-inside: avoid;
-      overflow: hidden;
-      border-radius: 8px;
-      opacity: 0;
-      transition: opacity 1s ease-in-out;
-      transform: translateZ(0);
-    }
-
-    .grid-item img {
-      width: 100%;
-      display: block;
-      transition: transform 0.3s ease, filter 0.3s ease;
-    }
-
-    .grid-item img:hover {
-      transform: scale(1.1);
-      filter: brightness(0.5); /* Darken the image on hover */
-    }
-
-    .view-count-overlay {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: #fff;
-      font-family: 'Roboto Black', sans-serif;
-      font-size: 18px;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-    }
-
-    .grid-item:hover .view-count-overlay {
-      opacity: 1;
-    }
-
-    /* View Count Styles */
-    .view-container {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    .content-type-label {
-      font-family: 'Roboto Black', sans-serif;
-      font-size: 16px;
-      color: #fff;
-      margin-bottom: 5px; /* Adjust spacing above the view count pill */
-      text-align: center;
-      opacity: 0.75;
-    }
-
-    #main-content-type {
-      opacity: 0; /* Adjust the value between 0 (fully transparent) and 1 (fully opaque) */
-    }
-
-    .view-count-container {
-      background-color: #a5aba8;
-      border: #111 solid 2.5px;
-      filter: drop-shadow( 1px 3px 0px #000);
-      color: #1a1a1a;
-      padding: 8px 12px;
-      border-radius: 100px;
-      font-family: 'Roboto Black', sans-serif;
-      font-size: 16px;
-      text-align: center;
-
-    }
-
-    .social-icons {
-    text-align: center; /* Centers all content inside the footer */
-    padding: 20px; /* Adds some space around the footer */
-    color: #fff; /* Text color for the copyright */
-    }
-
-    .social-icons .social-links {
-        display: flex;
-        justify-content: center; /* Centers the icons horizontally */
-        gap: 15px; /* Adds space between the icons */
-        margin-bottom: 10px; /* Adds space between the icons and the footer text */
-    }
-
-    .social-icons img {
-        width: 32px; /* Adjusts icon size */
-        height: 32px;
-        transition: transform 0.3s; /* Adds hover effect */
-    }
-
-    .social-icons img:hover {
-        transform: scale(1.1); /* Slight zoom-in on hover */
-    }
-
-    .footer-text {
-        font-size: 12px; /* Adjust text size */
-        color: #bbb; /* Muted text color */
-        opacity: .25;
-    }
-
-    .footer-link{
-      font-size: 12px; /* Adjust text size */
-      color: #ffffff; /* Muted text color */
-      opacity: .5;
-    }
-
-    .bug-logo {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      width: 60px;
-      height: 60px;
-      z-index: 1000;
-      opacity: 0.75;
-      transition: opacity 0.3s ease;
-    }
-
-    @media (max-width: 768px) {
-      .masonry-grid {
-        column-count: 2;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .masonry-grid {
-        column-count: 2;
-      }
-    }
-
-    .loading {
-      text-align: center;
-      padding: 20px;
-      font-size: 18px;
-      color: #f7f7f7;
-      display: none;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fresh Cake - 🍰</title>
+  <link rel="stylesheet" href="site.css" />
 </head>
 <body>
-  <div class="toggle-container">
-    <nav>
-      <div class="toggle-wrapper">
-        <input id="toggle_switch" name="toggle_switch" type="checkbox" />
-        <label for="toggle_switch"></label>
-      </div>
-      <div class="nav-buttons">
-        <a href="about.html">What is This?</a>
-        <a href="mailto:Gaetan@freshcake.wtf?subject=(Your Company Name Here): (Project Title Here)&body=Thanks for your interest in my work! Please format your subject as shown; it helps me keep track. You can remove this text now.">Say Hello</a>
-      </div>
-    </nav>
+  <div id="global-nav"></div>
+
+  <div id="feed" style="max-width: 600px; margin: 0 auto;"></div>
+  
+  <div style="text-align: center; margin-top: 2rem;">
+    <button id="loadMoreBtn">Load More</button>
   </div>
 
-  <div class="loading">Loading up junk...</div>
-
-  <div class="masonry-grid" id="gif-grid"></div>
-
-  <!-- Content type label -->
-  <div id="main-content-type" class="content-type-label">GIFs</div>
-
-  <!-- View count container -->
-  <div class="view-container">
-    <div id="content-type" class="content-type-label">GIFs</div>
-    <div class="view-count-container">
-      <div id="view-count">0 views</div>
-    </div>
-  </div>
-
-  <footer class="social-icons">
-      <div class="social-links">
-          <a href="https://giphy.com/freshcake" target="_blank" rel="noopener noreferrer">
-              <img src="lib/images/GIPHY Icon.svg" alt="Giphy">
-          </a>
-          <a href="https://github.com/freshcakewtf" target="_blank" rel="noopener noreferrer">
-              <img src="lib/images/github-mark-white.svg" alt="Github">
-          </a>
-          <a href="https://www.youtube.com/@freshcake" target="_blank" rel="noopener noreferrer">
-              <img src="lib/images/yt_logo_pms_mono_light.svg" alt="YouTube">
-          </a>
-      </div>
-      <div class="footer-text">
-        © 2025 Fresh Cake LLC | <a href="/Privacy.html" class="footer-link">Privacy</a>
-    </div>
-  </footer>
-
-  <img src="lib/images/Fresh-Cake-Bug.png" alt="Fresh Cake Logo" class="bug-logo">
+  <div id="global-footer"></div>
 
   <script>
-    const csvFilePath = 'lib/docs/GIPHY_freshcake.csv';
-    const gifGrid = document.getElementById('gif-grid');
-    const toggleSwitch = document.getElementById('toggle_switch');
-    const mainContentTypeLabel = document.getElementById('main-content-type');
-    const viewContentTypeLabel = document.getElementById('content-type');
-    let contentType = 'GIF'; // Default to GIF
+    fetch("lib/nav.html")
+      .then((res) => res.text())
+      .then((html) => {
+        document.getElementById("global-nav").innerHTML = html;
 
-    // Function to load GIF data from CSV
-    async function loadGifsFromCsv() {
-      try {
-        const response = await fetch(csvFilePath);
-        if (!response.ok) throw new Error('Network response was not ok');
-        const csvText = await response.text();
-
-        Papa.parse(csvText, {
-          header: true,
-          skipEmptyLines: true,
-          complete: (results) => {
-            console.log(Object.keys(results.data[0])); // Debug column names
-            const gifData = results.data;
-            filterAndLoadContent(gifData);
-          },
-        });
-      } catch (error) {
-        console.error('Failed to load CSV:', error);
-      }
-    }
-
-    // Function to create a GIF grid item
-    function createGifItem(contentUrl, imageUrl, viewCount) {
-      const gifItem = document.createElement('div');
-      gifItem.className = 'grid-item';
-
-      // Safeguard and format view count
-      const sanitizedViewCount = parseInt((viewCount || '0').trim(), 10);
-      const formattedViewCount = formatViews(sanitizedViewCount);
-
-      gifItem.innerHTML = `
-        <img src="${imageUrl}" alt="${contentType} from Fresh Cake">
-        <div class="view-count-overlay">${formattedViewCount} views</div>
-      `;
-
-      // Add click-to-copy functionality
-      gifItem.addEventListener('click', () => {
-        navigator.clipboard
-          .writeText(contentUrl)
-          .then(() => alert('Content URL copied to clipboard!'))
-          .catch((err) => console.error('Error copying content_url:', err));
-      });
-
-      // Lazy-load opacity effect
-      const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = 1;
-            observer.unobserve(entry.target);
+        const current = window.location.pathname.split("/").pop() || "index.html";
+        document.querySelectorAll("#nav-pill a").forEach((link) => {
+          if (link.getAttribute("href") === current) {
+            link.classList.add("active");
           }
         });
-      }, { threshold: 0.5 });
-      observer.observe(gifItem);
+      });
+  </script>
 
-      return gifItem;
+  <script>
+  fetch("lib/footer.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("global-footer").innerHTML = html;
+    });
+  </script>
+  
+  <script type="module">
+let allPosts = [];
+let cursor = null;
+
+async function loadFeed(loadMore = false) {
+  const feedContainer = document.getElementById('feed');
+  if (!loadMore) {
+    allPosts = [];
+    cursor = null;
+    feedContainer.innerHTML = '<p>Loading feed from Bluesky...</p>';
+  }
+
+  try {
+    let url = 'https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=freshcake.wtf';
+    if (cursor) url += `&cursor=${cursor}`;
+
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (!data.feed) {
+      console.error('⚠️ Bluesky response did not include a "feed" array:', data);
+      feedContainer.innerHTML = '<p>⚠️ No feed data found for this user.</p>';
+      return;
     }
 
-    // Shuffle array (to randomize content)
-    function shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
-    }
+    cursor = data.cursor || null;
 
-    // Format view count
-    function formatViews(views) {
-      if (isNaN(views)) return '0'; // Handle NaN
-      if (views >= 1000000000) return (views / 1000000000).toFixed(1) + 'b';
-      if (views >= 1000000) return (views / 1000000).toFixed(1) + 'm';
-      if (views >= 1000) return (views / 1000).toFixed(1) + 'k';
-      return views.toString();
-    }
+    const newPosts = data.feed
+      .filter(item => item.post && item.post.record && !item.post.record.reply)
+      .map(item => {
+        const post = item.post.record;
+        const embed = item.post.embed;
+        const mediaUrls = embed?.images?.map(img => img.fullsize) || [];
 
-    // Filter and load content into the grid
-    function filterAndLoadContent(gifData) {
-      // Filter based on content type
-      const filteredData = gifData.filter((item) =>
-        item.content_type.includes(contentType)
-      );
-      const shuffledData = shuffleArray(filteredData);
+        let externalUrl = null;
+        if (embed?.external?.uri) {
+          externalUrl = embed.external.uri;
+        } else if (embed?.record?.record?.embed?.external?.uri) {
+          externalUrl = embed.record.record.embed.external.uri;
+        } else if (embed?.record?.embed?.external?.uri) {
+          externalUrl = embed.record.embed.external.uri;
+        }
 
-      gifGrid.innerHTML = ''; // Clear the grid
-      let totalViews = 0;
-
-      shuffledData.forEach((item) => {
-        console.log(`content_url: ${item.content_url}, view_count: ${item.view_count}`); // Debug view count
-        const gifItem = createGifItem(item.content_url, item.media_url, item.view_count);
-        gifGrid.appendChild(gifItem);
-
-        totalViews += parseInt(item.view_count, 10) || 0; // Aggregate total views
+        return {
+          text: post.text || '',
+          mediaUrls,
+          externalUrl,
+          timestamp: post.createdAt,
+          embedRaw: JSON.stringify(embed, null, 2)
+        };
       });
 
-      // Update total view count display
-      const formattedViews = formatViews(totalViews);
-      document.getElementById('view-count').textContent = `${formattedViews} views`;
+    allPosts = loadMore ? [...allPosts, ...newPosts] : newPosts;
+    renderFeed();
 
-      document.querySelector('.loading').style.display = 'none'; // Hide loading message
+    if (!cursor) {
+      document.getElementById('loadMoreBtn').style.display = 'none';
     }
+  } catch (err) {
+    console.error('❌ Error loading Bluesky feed:', err);
+    feedContainer.innerHTML = '<p>❌ Failed to load feed from Bluesky. Check console for details.</p>';
+  }
+}
 
-    // Toggle between GIFs and Stickers
-    toggleSwitch.addEventListener('change', () => {
-      contentType = toggleSwitch.checked ? 'STICKER' : 'GIF';
-      mainContentTypeLabel.textContent = toggleSwitch.checked ? 'Stickers' : 'GIFs';
-      viewContentTypeLabel.textContent = toggleSwitch.checked ? 'Stickers' : 'GIFs';
+function renderFeed() {
+  const feedContainer = document.getElementById('feed');
 
-      // Show loading message while switching content
-      document.querySelector('.loading').style.display = 'block';
+  const html = allPosts.map(post => `
+    <div class="post">
+      <p>${post.text}</p>
+      ${post.mediaUrls && post.mediaUrls.length > 0
+        ? post.mediaUrls.length === 1
+          ? `<img src="${post.mediaUrls[0]}" style="width: 100%; margin-top: 1rem; border-radius: 4px; object-fit: cover;" />`
+          : `<div class="media-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-top: 1rem;">
+               ${post.mediaUrls.map(url => `<img src="${url}" style="width: 100%; height: auto; border-radius: 4px; object-fit: cover; border: 2px solid #000;" />`).join('')}
+             </div>`
+        : ''}
+      ${post.embedRaw && post.embedRaw.includes('app.bsky.embed.external#view')
+        ? (() => {
+            try {
+              const embed = JSON.parse(post.embedRaw);
+              const ext = embed?.external;
+              if (!ext || !ext.uri) return ''; // prevent crash
+              return `
+                <div class="embed-card">
+                  <a href="${ext.uri}" target="_blank" rel="noopener noreferrer">
+                    <img src="${ext.thumb}" alt="${ext.title}" class="embed-thumbnail" />
+                    <div class="embed-meta">
+                      <strong>${ext.title}</strong>
+                      <p>${ext.description}</p>
+                    </div>
+                  </a>
+                </div>`;
+            } catch (e) {
+              console.warn('⚠️ Failed to render embed:', e);
+              return '';
+            }
+          })()
+        : ''}
+      ${post.embedRaw && post.embedRaw.includes('app.bsky.embed.video#view') && post.embedRaw.includes('playlist')
+        ? (() => {
+            const embed = JSON.parse(post.embedRaw);
+            return `<video autoplay muted loop playsinline controls style="max-width: 100%; margin-top: 1rem;" poster="${embed.thumbnail}">
+              <source src="${embed.playlist}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>`;
+          })()
+        : ''}
+      <small>${new Date(post.timestamp).toLocaleString()}</small>
+    </div>
+  `).join('');
 
-      // Reload content based on the new content type
-      loadGifsFromCsv();
-    });
+  feedContainer.innerHTML = html;
+}
 
-    // Initial load
-    loadGifsFromCsv();
-  </script>
+document.getElementById('loadMoreBtn').addEventListener('click', () => {
+  loadFeed(true);
+});
+
+window.addEventListener('DOMContentLoaded', loadFeed);
+</script>
 </body>
 </html>

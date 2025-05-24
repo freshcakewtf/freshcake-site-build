@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Toons - 🖼️</title>
+  <link rel="stylesheet" href="site.css" />
+</head>
+<body>
+  <div id="global-nav"></div>
+
+  <div id="gif-grid" class="masonry-grid">
+    <div class="masonry-column" id="col-0"></div>
+    <div class="masonry-column" id="col-1"></div>
+    <div class="masonry-column" id="col-2"></div>
+    <div class="masonry-column" id="col-3"></div>
+    <div class="masonry-column" id="col-4"></div>
+  </div>
+
+  <div style="text-align: center; margin-top: 2rem;">
+    <button id="loadMoreBtn">Load More</button>
+  </div>
+
+    <div id="global-footer"></div>
+
+  <script>
+    fetch("lib/nav.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById("global-nav").innerHTML = html;
+
+        const current = window.location.pathname.split("/").pop();
+        document.querySelectorAll("#nav-pill a").forEach(link => {
+          if (link.getAttribute("href") === current) {
+            link.classList.add("active");
+          }
+        });
+      });
+  </script>
+
+  <script>
+  fetch("lib/footer.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("global-footer").innerHTML = html;
+    });
+  </script>
+  
+  <script>
+    let gifLines = [];
+    let gifIndex = 0;
+    const usedUrls = new Set();
+      const GIFS_PER_LOAD = 20;
+
+    function showToast(message = "Copied to clipboard!") {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.style.opacity = '1';
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+      }, 1500); // stays visible for 1.5s
+    }
+
+    async function loadCsv() {
+      const response = await fetch('assets/data/GiphyPosts.csv');
+      const text = await response.text();
+      gifLines = text.trim().split('\n').slice(1);
+      renderNextGifs();
+
+      // Count total views and update the counter
+      let totalViews = 0;
+      gifLines.forEach(line => {
+        const cols = line.split(',');
+        const views = parseInt(cols[1], 10);
+        totalViews += isNaN(views) ? 0 : views;
+      });
+
+      document.getElementById('view_count').textContent = `${formatViews(totalViews)} views`;
+    }
+
+    function formatViews(views) {
+      if (isNaN(views)) return '0';
+      if (views >= 1e9) return (views / 1e9).toFixed(1) + 'b';
+      if (views >= 1e6) return (views / 1e6).toFixed(1) + 'm';
+      if (views >= 1e3) return (views / 1e3).toFixed(1) + 'k';
+      return views.toString();
+    }
+
+    function renderNextGifs() {
+      const columns = Array.from(document.getElementsByClassName('masonry-column'));
+      const gifsPerColumn = Math.ceil(GIFS_PER_LOAD / columns.length); // auto-calculated
+
+      for (const column of columns) {
+        let added = 0;
+        const fragment = document.createDocumentFragment();
+        while (gifIndex < gifLines.length && added < gifsPerColumn) {
+          const cols = gifLines[gifIndex].split(',');
+          const mediaUrl = cols[4];
+          gifIndex++;
+
+          if (usedUrls.has(mediaUrl)) continue;
+
+          const div = document.createElement('div');
+          div.className = 'grid-item';
+          const views = parseInt(cols[1], 10) || 0;
+          const formattedViews = formatViews(views);
+          div.innerHTML = `
+            <img src="${mediaUrl}" alt="GIF" style="cursor: pointer;">
+            <div class="view-count-overlay">${formattedViews} views</div>
+          `;
+          fragment.appendChild(div);
+
+          // Add click event to copy mediaUrl to clipboard
+          div.querySelector('img').addEventListener('click', () => {
+            navigator.clipboard.writeText(mediaUrl).then(() => {
+              showToast();
+            }).catch(err => {
+              console.error('Failed to copy:', err);
+            });
+          });
+
+          usedUrls.add(mediaUrl);
+          added++;
+        }
+        column.appendChild(fragment);
+      }
+
+      if (gifIndex >= gifLines.length) {
+        document.getElementById('loadMoreBtn').style.display = 'none';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCsv();
+      document.getElementById('loadMoreBtn').addEventListener('click', renderNextGifs);
+    });
+  </script>
+  <div id="toast" style="
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #000;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-weight: bold;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 999;
+  ">
+    Copied to clipboard!
+  </div>
+</body></html>

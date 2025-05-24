@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog Post Title</title>
+  <link rel="stylesheet" href="/site.css" />
+</head>
+<body>
+  <div id="global-nav"></div>
+  <main class="section-wrapper">
+    <h1 style="font-size: 40px; line-height: 50px; text-align: center;">Can Gen AI Roleplay as an Animated Character?</h1>
+    <article class="post">
+      <small>Published: 05/09/2025</small>
+      
+      <img src="/assets/images/SubtlyBold.png" alt="Hero Image" />
+
+      <p style="color: #000; line-height: normal; font-size: 15px">I wanted to answer a simple question: <strong>Can I create an animated character using generative AI — one that writes its own dialogue and automatically exports a fully animated scene?</strong></p>
+
+      <p style="color: #000; line-height: normal; font-size: 15px">Turns out... yeah. Kind of.</p>
+
+      <p style="color: #000; line-height: normal; font-size: 15px">This post breaks down how I used ChatGPT, Eleven Labs, and some Python scripting to prototype a fully automated content pipeline. The final result is a recurring animated character — an AI-generated "bad art director" who lives in a series I call <em>Subtly Bold</em>. You can <a href="https://youtube.com/playlist?list=PLc3H2uq9hBV9Hesv4MjACcg6fanXVK8D9&si=-CwsLjArZtS8ZBBC">watch the playlist here</a>.</p>
+
+      <h2 style="color: #000;">🧠 Prompted Personality</h2>
+      <p style="color: #000; line-height: normal; font-size: 15px">It all starts with a role. I asked ChatGPT to pretend it was a terrible art director — someone indecisive, dramatic, and wildly overconfident. Here's the prompt I used:</p>
+
+      <div style="background-color: #1e1e1e; border-radius: 10px; padding: 1rem; margin: 1.5rem 0; position: relative;">
+        <button class="copy-btn" style="position: absolute; top: 10px; right: 10px; background: none; border: none; cursor: pointer;">📋</button>
+        <div style="color: #fff; font-family: monospace; font-size: 14px; margin-bottom: 0.5rem;">json</div>
+        <pre style="overflow-x: auto; margin: 0;"><code style="color: #d4d4d4; font-family: monospace;">
+{
+  "role": "system",
+  "content": "You are role playing as terrible Art Director that frequently condradicts yourself. You have a hard time giving clear direction to your staff member who is burning out."
+},
+{
+  "role": "system",
+  "content": "Give us some art direction in a very comedic manner that's slightly confusing"
+},
+{
+  "role": "system",
+  "content": "You are a very tall and pale character with a tiny beanie on your head which you feel makes you qualified for the job"
+},
+{
+  "role": "system",
+  "content": "You're never afraid to make a logo bigger or completely change direction mid sentence."
+},
+{
+  "role": "system",
+  "content": "If you are going to react to something don't use '*'. Please say 'Ha' or speak to the emotion you are conveying with text"
+},
+{
+  "role": "user",
+  "content": "Digital art and reactionary humor. Keep it under 10 seconds in length. Keep it very short."
+}
+  </code></pre>
+</div>
+
+      <h2 style="color: #000;">🗣️ From Text to Voice with Eleven Labs</h2>
+      <p style="color: #000; line-height: normal; font-size: 15px">Once I had the script, I passed it to Eleven Labs to generate a voiceover. Their voices were the most natural I could find, and their monetization model lets original voice creators earn a share. The results sounded great for quick, character-driven content.</p>
+
+      <p style="color: #000; line-height: normal; font-size: 15px">If you want the code for generating VO from personality to audio check out my repo <a href="https://github.com/freshcakewtf/generativeVoiceOver.git">here</a>.</p>
+
+      <h2 style="color: #000;">🎞️ Building the Animated Scene</h2>
+      <p style="color: #000; line-height: normal; font-size: 15px">With a voiceover in hand, the last step was syncing animation. I used Python to process PNG sequences and match mouth movements to audio amplitude. It’s rough — there’s a lot of lip flap — but it gave me a starting point to test logic for timing and layering.</p>
+
+      <p style="color: #000; line-height: normal; font-size: 15px">The end result is three animation layers: a body, a mouth sequence, and a looping background — all rendered and stitched using MoviePy and FFmpeg.</p>
+
+      <h2 style="color: #000;">🔧 Code Snapshot</h2>
+      <p style="color: #000; line-height: normal; font-size: 15px">Here’s a condensed version of the animation assembly logic:</p>
+
+      <div style="background-color: #1e1e1e; border-radius: 10px; padding: 1rem; margin: 1.5rem 0; position: relative;">
+  <button class="copy-btn" style="position: absolute; top: 10px; right: 10px; background: none; border: none; cursor: pointer;">📋</button>
+  <div style="color: #fff; font-family: monospace; font-size: 14px; margin-bottom: 0.5rem;">python</div>
+  <pre style="overflow-x: auto; margin: 0;"><code style="color: #d4d4d4; font-family: monospace;">
+def load_png_sequence(directory, fps=24):
+    png_files = sorted([os.path.join(directory, f) for f in os.listdir(directory) if f.endswith('.png')])
+    return mp.ImageSequenceClip(png_files, fps=fps)
+
+def create_layer_01(df, layer01_dir, audio_path, output_dir):
+    layer01 = load_png_sequence(layer01_dir)
+    clips = []
+    start = 0
+
+    audio = mp.AudioFileClip(audio_path)
+    for _, row in df.iterrows():
+        duration = row['Start Time'] - start
+        if duration > 0:
+            clips.append(layer01.subclip(0, duration))
+        duration = row['End Time'] - row['Start Time']
+        while duration > 0:
+            clip_duration = min(layer01.duration, duration)
+            clips.append(layer01.subclip(0, clip_duration))
+            duration -= clip_duration
+        start = row['End Time']
+
+    if audio.duration > start:
+        clips.append(layer01.subclip(0, audio.duration - start))
+
+    video = mp.concatenate_videoclips(clips).set_audio(audio).subclip(0, audio.duration)
+    export_to_mov(video, output_dir, 'Layer_01.mov')
+  </code></pre>
+</div>
+
+      <p style="color: #000; line-height: normal; font-size: 15px">There’s more behind the scenes (layer merging, export handling, and metadata tracking), but that’s the core of the animation flow.</p>
+
+      <h2 style="color: #000;">🎬 Final Thoughts</h2>
+      <p style="color: #000; line-height: normal; font-size: 15px">This whole thing started with a real piece of feedback I once got on a title animation: “Make it bold… but also subtle.”</p>
+
+      <p style="color: #000; line-height: normal; font-size: 15px">That contradiction became the heart of Subtly Bold — a character and a system built to experiment with creative automation. It’s janky, but fun, and gave me a glimpse into how gen AI can become more than just a tool — maybe even a weird little teammate.</p>
+    </article>
+  </main>
+
+  <script>
+    fetch("/lib/nav.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById("global-nav").innerHTML = html;
+
+        const current = window.location.pathname.split("/").pop();
+        document.querySelectorAll("#nav-pill a").forEach(link => {
+          if (link.getAttribute("href") === current) {
+            link.classList.add("active");
+          }
+        });
+      });
+  </script>
+
+  <script>
+    document.querySelectorAll('.copy-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const code = button.nextElementSibling.innerText;
+        navigator.clipboard.writeText(code).then(() => {
+          button.textContent = 'Copied!';
+          setTimeout(() => (button.textContent = 'Copy'), 2000);
+        });
+      });
+    });
+  </script>
+  
+</body>
+</html>
