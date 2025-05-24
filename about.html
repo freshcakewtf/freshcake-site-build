@@ -1,192 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fresh Cake - About Me</title>
-  <style>
-    @font-face {
-      font-family: 'Anton';
-      src: url('lib/fonts/Anton-Regular.ttf') format('truetype');
-    }
-
-    @font-face {
-      font-family: 'Roboto Black';
-      src: url('lib/fonts/Roboto-Black.ttf') format('truetype');
-    }
-
-    @font-face {
-      font-family: 'Roboto Medium';
-      src: url('lib/fonts/Roboto-Medium.ttf') format('truetype');
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Roboto Medium', sans-serif;
-      min-height: 100vh;
-      background: linear-gradient(to bottom, #252227, #1a1a1a);
-      color: #fff;
-    }
-
-    .toggle-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between; /* Ensures items are spaced between edges */
-      padding: 40px 20px;
-      height: 50px;
-      box-sizing: border-box;
-    }
-
-    nav {
-      display: flex;
-      gap: 15px;
-      margin-left: auto; /* Pushes the nav links to the right */
-    }
-
-    nav a {
-      margin: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: #1a1a1a;
-      text-decoration: none;
-      font-size: 14px;
-      padding: 8px 10px;
-      background-color: #e5d0c1;
-      border-radius: 100px;
-      border: #111 solid 2.5px;
-      filter: drop-shadow( 1px 3px 0px #000);
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    nav a:hover {
-      background-color: #f7f7f7;
-      color: #252227;
-    }
-
-    .about-container {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 20px;
-      background-color: rgba(235, 235, 235, 0.05);
-      border-radius: 10px;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-      font-family: 'Roboto Medium', sans-serif;
-      line-height: 1.8;
-      font-size: 16px;
-    }
-
-    .about-container h1 {
-      font-family: 'Roboto Black', sans-serif;
-      font-size: 32px;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .about-container p {
-      margin-bottom: 20px;
-    }
-
-    footer {
-      text-align: center;
-      margin: 40px 0;
-    }
-
-    .social-icons {
-    text-align: center; /* Centers all content inside the footer */
-    padding: 20px; /* Adds some space around the footer */
-    color: #fff; /* Text color for the copyright */
-    }
-
-    .social-icons .social-links {
-        display: flex;
-        justify-content: center; /* Centers the icons horizontally */
-        gap: 15px; /* Adds space between the icons */
-        margin-bottom: 10px; /* Adds space between the icons and the footer text */
-    }
-
-    .social-icons img {
-        width: 32px; /* Adjusts icon size */
-        height: 32px;
-        transition: transform 0.3s; /* Adds hover effect */
-    }
-
-    .social-icons img:hover {
-        transform: scale(1.1); /* Slight zoom-in on hover */
-    }
-
-    .footer-text {
-        font-size: 12px; /* Adjust text size */
-        color: #bbb; /* Muted text color */
-        opacity: .25;
-    }
-
-    .footer-link{
-      font-size: 12px; /* Adjust text size */
-      color: #ffffff; /* Muted text color */
-      opacity: .5;
-    }
-
-    .bug-logo {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      width: 60px;
-      height: 60px;
-      z-index: 1000;
-      opacity: 0.75;
-      transition: opacity 0.3s ease;
-    }
-
-    @media (max-width: 480px) {
-      .about-container {
-        width: 90%; /* Reduce width to fit within smaller screens */
-        margin: 25px auto; /* Adjust margins for proper centering */
-        padding: 10px; /* Reduce padding for smaller devices */
-        font-size: 13px; /* Optional: Adjust font size for readability */
-      }
-    }
-
-    .bug-logo:hover {
-      opacity: 1;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresh Cake - 🤪</title>
+    <link rel="stylesheet" href="site.css">
 </head>
 <body>
-  <div class="toggle-container">
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="mailto:Gaetan@freshcake.wtf?subject=(Your Company Name Here): (Project Title Here)&body=Thanks for your interest in my work! Please format your subject as shown; it helps me keep track. You can remove this text now.">Say Hello</a>
-    </nav>
-  </div>
+  <div id="global-nav"></div>
 
-  <div class="about-container">
-    <h1>About Fresh Cake</h1>
-    <p>Fresh Cake is the digital equivalent of passing a funny note in class—it’s a collection of animated cartoons designed to make people laugh, react, and share. At its heart, Fresh Cake is all about reactionary humor. You know, those moments when words just don’t cut it.</p>
-    <p>These animations thrive in group chats and light up social media. Think quirky, expressive characters and moments so relatable you can’t help but share them. (They might even help you win an argument—just saying.)</p>
-    <p>Behind Fresh Cake is me—a digital artist with a passion for crafting fun, shareable animations. With over 15 years of experience in digital media, I’ve worked on everything from GIFs to YouTube content, including an incredible day job at Nickelodeon. When I’m not animating, you’ll find me playing video games, skiing, or indulging in a serious ice cream habit. Making cartoons might seem chaotic, but I wouldn’t have it any other way.</p>
-    <p>Oh, and my Fresh Cake GIFs have over 2.4 billion views on Giphy. Does that make me internet famous? Probably not, but it’s fun to pretend.</p>
-    <p>So, if you’re into clever animations, digital high-fives, or just want a reason to laugh, Fresh Cake is here for you. Go ahead—share a byte. 😊</p>
-  </div>
+    <header>
+        <div class="hero-container">
+            <div class="hero-text">
+                <h1>This is a Real Person, Allegedly</h1>
+                <p>And I’ve been doing weird sh*t on the internet since the dial-up days. Somehow, I made a career out of it.</p>
+                <p>I’m a digital artist/animator, creative technologist, and wanna-be game dev with 15 years in the media industry. I  blend pixels, code, and chaotic good energy to bring ideas to life. Whether I’m animating something ridiculous, building tools in search of better loot, or making a game just because games are freakin’ awesome — I’m always chasing the next creative quest.</p>
+            </div>
+            <img src="assets/images/FC-Avatar.png" alt="Pop Scene Avatar" class="hero-image" />
+        </div>
+    </header>
+    <section class="tools">
+        <h2>My Go-To Tools</h2>
+        <p class="tools-subtitle">Including the ones I know well but use less frequently</p>
+        
+        <div class="tools-grid">
+            <div class="tool-category primary">
+                <h3>✏️ Primary Tools</h3>
+                <ul>
+                    <li>After Effects</li>
+                    <li>Premiere Pro</li>
+                    <li>Character Animator</li>
+                    <li>ExtendScript</li>
+                    <li>Fresco</li>
+                    <li>Illustrator</li>
+                    <li>VS Code</li>
+                    <li>OpenAI</li>
+                </ul>
+            </div>
+    
+            <div class="tool-category secondary">
+                <h3>🎨 Other Tools</h3>
+                <ul>
+                    <li>Photoshop</li>
+                    <li>Cinema 4D</li>
+                    <li>Firefly</li>
+                </ul>
+                
+                <h3 class="working-knowledge">💾 Working Knowledge</h3>
+                
+                <ul>
+                    <li>HTML</li>
+                    <li>JavaScript</li>
+                    <li>Eleven Labs</li>
+                </ul>
+            </div>
+            <div class="tool-category learning">
+                <h3>🌱 Learning</h3>
+                <ul>
+                    <li>Python</li>
+                    <li>Godot</li>
+                    <li>AT Protocol</li>
+                    <li>RasPi Stuff</li>
+                    <li>Home Networking</li>
+                    <li>Magic: The Gathering</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+    <section class="timeline section-wrapper">
+      <h2>The Places I've Been</h2>
+      <ul>
+          <li class="timeline-item">
+              <div class="bullet"></div>
+              <div class="content">
+                  <p class="date">2020 - Present</p>
+                  <h3>
+                      <button class="dropdown-button">▶</button> Senior Motion Designer | Nickelodeon
+                  </h3>
+                  <div class="description">
+                      <p>
+                          Designed and developed motion graphic toolkits for Nickelodeon, ensuring cohesive branding across projects. 
+                          Animated characters for iconic shows like <em>SpongeBob SquarePants</em> and <em>The Loud House</em> holiday specials. 
+                          Mentored a junior designer, fostering creativity and collaboration. 
+                          Focused on workflow efficiencies by creating innovative tools and optimizing post-production processes.
+                      </p>
+                  </div>
+              </div>
+          </li>
+          <li class="timeline-item">
+              <div class="bullet"></div>
+              <div class="content">
+                  <p class="date">2017 - 2020</p>
+                  <h3>
+                      <button class="dropdown-button">▶</button> Graphic Designer | Outside TV
+                  </h3>
+                  <div class="description">
+                      <p>
+                          Designed UI assets for various apps, including <em>Outside TV’s</em> flagship streaming platform, enhancing UX and maintaining brand consistency. 
+                          Created visually engaging pitch decks to support business development and secure key partnerships. 
+                          Developed high-quality marketing materials for both digital and print campaigns, tailored to the outdoor industry's unique audience. 
+                          Created Motion Graphics for social content and longer-form video content.
+                          Collaborated with cross-departmental teams to ensure cohesive visuals across platforms and marketing initiatives.
+                      </p>
+                  </div>
+              </div>
+          </li>
+          <li class="timeline-item">
+              <div class="bullet"></div>
+              <div class="content">
+                  <p class="date">2014 - 2017</p>
+                  <h3>
+                      <button class="dropdown-button">▶</button> 2D Motion Graphics Artist | WWE
+                  </h3>
+                  <div class="description">
+                      <p>
+                          Created dynamic motion graphics for high-profile WWE productions, including <em>Monday Night RAW</em> and their biggest event of the year <em>WrestleMania</em>. 
+                          Designed and pitched creative concepts, blending 2D and 3D elements to deliver high-impact visuals. 
+                          Designed promotional materials and content for live broadcasts, ensuring alignment with WWE's energetic brand identity. 
+                          Collaborated with production teams to enhance storytelling and engage audiences worldwide.
+                      </p>
+                  </div>
+              </div>
+          </li>
+          <li class="timeline-item">
+              <div class="bullet"></div>
+              <div class="content">
+                  <p class="date">2012 - 2014</p>
+                  <h3>
+                      <button class="dropdown-button">▶</button> Freelance Media Production
+                  </h3>
+                  <div class="description">
+                      <p>
+                          Worked in media production for major brands such as MTV, MTV2, VH1, and Forbes, contributing to shows like <em>Guy Code</em> and <em>Jobs That Don't Suck</em>. 
+                          Covered a wide range of post-production responsibilities, primarily as an assistant editor, ensuring smooth workflows and high-quality deliverables. 
+                          Collaborated with creative teams to support editing, asset management, and final production for broadcast and digital platforms.
+                      </p>
+                  </div>
+              </div>
+          </li>
+      </ul>
+    </section>
+    <section class="proudProjects section-wrapper">
+        <h1>Some Work I've Done From Those Places</h1>
+        <div class="project-buttons">
+            <a href="https://www.youtube.com/playlist?list=PLSxImxctOCcS8hHZz74opnCiKmajN6V6q" class="project-button" target="_blank">
+                <span class="title">DoodleBob Series on YouTube</span>
+                <span class="subtitle">Creator</span>
+            </a>
+            <a href="https://youtu.be/VUd4bD_lbMk?si=Ip3mYu49QdwxglED" class="project-button" target="_blank">
+                <span class="title">Pat Reacts to the NFL</span>
+                <span class="subtitle">Animator & Character Rig</span>
+            </a>
+            <a href="https://youtu.be/BkEN6mjgHhM?si=_n-eQBWoWubaImNB" class="project-button" target="_blank">
+                <span class="title">Loud House 360</span>
+                <span class="subtitle">Motion Designer & Compositor</span>
+            </a>
+            <a href="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMWs3NmNyb2x1Ymg4Nm9tdDhvOXNjdXZ6ZG8yeWJvd2pxdXJnajYxaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9dg/rDnnU6LT2EggSjOKXQ/giphy.gif" class="project-button" target="_blank">
+                <span class="title">GIPHY</span>
+                <span class="subtitle">Featured Artist Series</span>
+            </a>
+        </div>
+    </section>
+    
+    <section class="about-me">
+        <h2>Bonus Lore About Me</h2>
+        <p class="about-intro">
+            Here are some fun facts about my life, interests, and things that keep me inspired! Click a question to learn more.
+        </p>
+        
+        <div class="faq">
+            <div class="faq-item">
+                <button class="faq-question">🌄 What's the deal with New England?</button>
+                <div class="faq-answer">
+                    <p>
+                        I grew up visiting family in New Hampshire and somehow ended up living here full-time. Turns out, I like my seasons dramatic. There’s nothing like sending it on the slopes in winter and cruising trails in summer. It’s basically a year-round vacation — or at least it feels that way.
+                    </p>
+                </div>
+            </div>
 
-  <footer class="social-icons">
-    <div class="social-links">
-        <a href="https://giphy.com/freshcake" target="_blank" rel="noopener noreferrer">
-            <img src="lib/images/GIPHY Icon.svg" alt="Giphy">
-        </a>
-        <a href="https://github.com/freshcakewtf" target="_blank" rel="noopener noreferrer">
-            <img src="lib/images/github-mark-white.svg" alt="Github">
-        </a>
-        <a href="https://www.youtube.com/@freshcake" target="_blank" rel="noopener noreferrer">
-            <img src="lib/images/yt_logo_pms_mono_light.svg" alt="YouTube">
-        </a>
-    </div>
-    <div class="footer-text">
-      © 2025 Fresh Cake LLC | <a href="/Privacy.html" class="footer-link">Privacy</a>
-  </div>
-</footer>
+            <div class="faq-item">
+                <button class="faq-question">🎮 Favorite types of video games?</button>
+                <div class="faq-answer">
+                    <p>
+                        I’m all about dungeon crawlers. Drop me in a maze with loot to hoard and a halfway decent combat system, and I’m in. I’m also weirdly inspired by 80s sci-fi flicks and campy action movies — not exactly game-related, but it felt important to share.
+                    </p>
+                </div>
+            </div>
 
-  <img src="lib/images/Fresh-Cake-Bug.png" alt="Fresh Cake Logo" class="bug-logo">
+            <div class="faq-item">
+                <button class="faq-question">🎨 Comics that inspire you?</button>
+                <div class="faq-answer">
+                    <p>
+                        Head Lopper is a big one. It’s got chunky line work, over-the-top action, and that perfect blend of brutal and beautiful. I’m a sucker for stylish fantasy and bold visual storytelling. Anything with big swords, cursed relics, and characters yelling dramatically into the void? Yeah, I’m in.
+                    </p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">🍦 Go-to indulgence?</button>
+                <div class="faq-answer">
+                    <p>
+                        Ice cream, no contest. Secret Spot in Bethlehem, NH does ice cream flights — and yeah, they’re as magical as they sound.
+                    </p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">🛠️ Favorite hands-on hobbies?</button>
+                <div class="faq-answer">
+                    <p>
+                        I’m big on making stuff! Especially the kind that involves tools, tinkering, and random wires that probably do something. I also love gardening and fixing up my cabin. It’s a nice break from screens and a good excuse to collect more gear.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="global-footer"></div>
+        
+    </section>
+    <script>
+        fetch('lib/nav.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('global-nav').innerHTML = data;
+
+            // Highlight the active nav button
+            const navLinks = document.querySelectorAll('.nav-button, .nav-pill button');
+            navLinks.forEach(link => {
+            if (link.textContent.trim() === "About") {
+                link.classList.add('active');
+            }
+            });
+        });
+
+        fetch("lib/footer.html")
+        .then(res => res.text())
+        .then(html => {
+        document.getElementById("global-footer").innerHTML = html;
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const dropdownButtons = document.querySelectorAll(".dropdown-button");
+
+            dropdownButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const description = this.parentElement.nextElementSibling; // Get the description div
+                    description.classList.toggle("active");
+
+                    // Toggle rotation using CSS class
+                    this.classList.toggle("active");
+                });
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const faqButtons = document.querySelectorAll(".faq-question");
+
+            faqButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    // Toggle the active class on the clicked button
+                    this.classList.toggle("active");
+
+                    // Toggle the answer visibility
+                    const answer = this.nextElementSibling;
+                    answer.classList.toggle("active");
+                });
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const timelineItems = document.querySelectorAll(".timeline-item");
+
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("visible");
+                        }
+                    });
+                },
+                { threshold: 0.5 }
+            );
+
+            timelineItems.forEach((item) => observer.observe(item));
+        });
+    </script>
 </body>
 </html>

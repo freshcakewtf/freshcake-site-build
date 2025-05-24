@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog Post Title</title>
+  <link rel="stylesheet" href="/site.css" />
+</head>
+<body>
+  <div id="global-nav"></div>
+  <main class="section-wrapper">
+    <article class="post">
+      <h1>Blog Post Title</h1>
+      <small>Published: 2025-05-08</small>
+      
+      <img src="/assets/images/Site_01.jpg" alt="Hero Image" />
+
+      <p style="color: #000;">This is a sample blog post. You can write about your experiments, ideas, or tech breakdowns. Make it as playful or technical as you like.</p>
+      <p style="color: #000; font-weight: 300;">Use subheadings to break up ideas. Maybe you want to explain how something works or recap your steps.</p>
+
+      <ul>
+        <li>Highlight key insights</li>
+        <li>Steps taken in your project</li>
+        <li>Unexpected things you learned</li>
+      </ul>
+
+      <p>Wrap up your post with links to more info, like 
+        <a href="https://github.com/freshcakewtf" target="_blank">your GitHub repo</a> 
+        or a 
+        <a href="/lab.html">related Lab project</a>.
+      </p>
+    </article>
+  </main>
+
+  <script>
+    fetch("/lib/nav.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById("global-nav").innerHTML = html;
+
+        const current = window.location.pathname.split("/").pop();
+        document.querySelectorAll("#nav-pill a").forEach(link => {
+          if (link.getAttribute("href") === current) {
+            link.classList.add("active");
+          }
+        });
+      });
+  </script>
+  
+</body>
+</html>

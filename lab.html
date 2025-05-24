@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Lab - 🧪</title>
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+    <div id="global-nav"></div>
+
+    <main class="lab-section">
+      <div id="repo-container" class="card-grid"></div>
+    </main>
+    
+    <div id="global-footer"></div>
+
+</main>
+
+  <script>
+    fetch("lib/nav.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById("global-nav").innerHTML = html;
+
+        const current = window.location.pathname.split("/").pop();
+        document.querySelectorAll("#nav-pill a").forEach(link => {
+          if (link.getAttribute("href") === current) {
+            link.classList.add("active");
+          }
+        });
+      });
+  </script>
+
+  <script>
+  fetch("lib/footer.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("global-footer").innerHTML = html;
+    });
+  </script>
+
+  <script>
+  const username = "freshcakewtf";
+
+  Promise.all([
+    fetch("lib/blog.json").then(res => res.json()),
+    fetch(`https://api.github.com/users/${username}/repos`).then(res => res.json())
+  ]).then(([posts, repos]) => {
+    const unified = [];
+
+    posts.forEach(post => {
+      unified.push({
+        title: post.title,
+        description: post.description,
+        url: post.url,
+        date: new Date(post.date),
+        type: "blog",
+        image: post.image
+      });
+    });
+
+    repos.forEach(repo => {
+      unified.push({
+        title: repo.name,
+        description: repo.description || "No description provided.",
+        url: repo.html_url,
+        date: new Date(repo.pushed_at),
+        type: "repo",
+        image: `https://opengraph.githubassets.com/1/${username}/${repo.name}`
+      });
+    });
+
+    unified.sort((a, b) => b.date - a.date);
+
+    const container = document.getElementById("repo-container");
+
+    unified.forEach(entry => {
+      const card = document.createElement("div");
+      card.classList.add("card");
+
+      let heroHTML = "";
+      if (entry.type === "repo") {
+        heroHTML = `
+          <div class="card-hero">
+            <img src="${entry.image}" alt="${entry.title}" />
+          </div>`;
+      } else if (entry.type === "blog" && entry.image) {
+        heroHTML = `
+          <div class="card-hero">
+            <img src="${entry.image}" alt="${entry.title}" />
+          </div>`;
+      }
+
+      card.innerHTML = `
+        ${heroHTML}
+        <div class="card-content">
+          <h2>${entry.title}</h2>
+          <p>${entry.description}</p>
+          <a href="${entry.url}" target="_blank">
+            ${entry.type === "repo" ? "View on GitHub →" : "Read More →"}
+          </a>
+        </div>
+      `;
+
+      container.appendChild(card);
+    });
+  });
+</script>
+</body>
+</html>
