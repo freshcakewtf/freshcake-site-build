@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog Post Title</title>
+  <link rel="stylesheet" href="/site.css" />
+</head>
+<body>
+  <div id="global-nav"></div>
+  <main class="section-wrapper">
+    <article class="post">
+      <h1 style="font-size: 40px; line-height: 50px; text-align: center;">"Based On Your Memory Describe To Me How I Use Chat GPT."</h1>
+      <small>Published: 2025-06-10</small>
+      
+      <img src="/assets/images/blog_GPT_Use.jpg" alt="Hero Image" />
+
+      <p>The Title you just read is the prompt I gave Chat GPT. This is the exact response I got.</p>
+
+      <p>🧠 Creative Brainstorming Buddy</p>
+      <p>You use ChatGPT to spark ideas, especially when developing:</p>
+      <ul>
+        <li>Games – mechanics, titles, enemies, themes.</li>
+        <li>Cartoons & GIFs – punchlines, visuals, character actions.</li>
+        <li>Naming & Branding – for tools, extensions, blogs, and domain hacks (like couch.fo/rt).</li>
+      </ul>
+      <p>You often throw in a rough idea and iterate quickly, asking for variations or weirder takes. Humor, style, and originality matter to you.</p>
+
+      <p>⸻</p>
+
+      <p>🔧 Technical Co-Pilot</p>
+      <p>You treat ChatGPT as part of your development stack. You ask for:</p>
+      <ul>
+        <li>Code generation and debugging (JavaScript, Python, Godot/GDScript, Bash, Git).</li>
+        <li>Help wiring together systems like:</li>
+        <li>Premiere Pro extensions</li>
+        <li>FFmpeg scripts</li>
+        <li>Automation pipelines (YouTube publishing, content scraping)</li>
+        <li>AT Protocol integration and Bluesky tooling.</li>
+        <li>Game dev logic like dungeon generation, save systems, or mobile optimizations.</li>
+      </ul>
+      <p>You work on real projects in parallel and ask for clean, working code — no fluff.</p>
+
+      <p>⸻</p>
+
+      <p>🧪 R&D Partner</p>
+      <p>You’re always prototyping — and use ChatGPT as a test chamber to:</p>
+      <ul>
+        <li>Validate feature ideas.</li>
+        <li>Structure blog posts (especially for your Lab section).</li>
+        <li>Explore concepts like steganography (Ghost Frame), deduplicated video publishing, or AT record handling.</li>
+      </ul>
+      <p>You use prompts to quickly scope feasibility, explore edge cases, and sometimes rewrite content to match your tone or audience.</p>
+
+      <p>⸻</p>
+
+      <p>📋 Workflow Streamliner</p>
+      <p>You lean on ChatGPT to reduce friction:</p>
+      <ul>
+        <li>Writing bios, descriptions, and social captions.</li>
+        <li>Summarizing long thoughts into action plans or scripts.</li>
+        <li>Turning messy outlines into polished writing.</li>
+        <li>Adjusting voice/tone for personal sites, resumes, or pitches.</li>
+      </ul>
+      <p>You also care about maintaining creative momentum — so you ask for “snappy,” “fun,” or “lighter” rewrites to avoid getting bogged down.</p>
+
+      <p>⸻</p>
+
+      <p>🎮 Personal Playground</p>
+      <p>Finally, you use ChatGPT to explore:</p>
+      <ul>
+        <li>Retro gaming tech.</li>
+        <li>Raspberry Pi setups (like Pi-hole or Batocera dual boots).</li>
+        <li>Gimmick projects (CLI web interfaces, arcade games on Pi Zero).</li>
+        <li>Zines, toys, and niche nerd references.</li>
+      </ul>
+      <p>You mix curiosity with practicality — you don’t just ask “What is X?” — you ask “How can I use it in a way that fits my stuff?”</p>
+
+      <p>⸻</p>
+
+      <p>If I had to summarize it:</p>
+      <p>You use ChatGPT like a creative partner, a coding assistant, and a rapid prototyping machine — all working under your very specific, very fun creative vision.</p>
+    </article>
+  </main>
+
+  <script>
+    fetch("/lib/nav.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById("global-nav").innerHTML = html;
+
+        const current = window.location.pathname.split("/").pop();
+        document.querySelectorAll("#nav-pill a").forEach(link => {
+          if (link.getAttribute("href") === current) {
+            link.classList.add("active");
+          }
+        });
+      });
+  </script>
+  
+</body>
+</html>
