@@ -61,7 +61,7 @@
     });
 
     repos.forEach(repo => {
-      if (repo.name === "freshcake-site-build") return;
+      if (repo.name === "freshcake-site-build") return; // Keep repo from floating to top on every update
 
       unified.push({
         title: repo.name,
