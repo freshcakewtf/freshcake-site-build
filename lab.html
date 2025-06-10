@@ -61,6 +61,8 @@
     });
 
     repos.forEach(repo => {
+      if (repo.name === "freshcake-site-build") return;
+
       unified.push({
         title: repo.name,
         description: repo.description || "No description provided.",
