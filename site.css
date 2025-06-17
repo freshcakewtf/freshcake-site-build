@@ -347,9 +347,6 @@ p, .faq-answer, .dropdown-button, .description, .tools-subtitle, .about-intro {
   order: 2;
 }
 
-.tool-category.learning {
-  order: 3;
-}
 
 .tool-category:hover {
   transform: scale(1.025);
@@ -435,9 +432,6 @@ p, .faq-answer, .dropdown-button, .description, .tools-subtitle, .about-intro {
       justify-content: center;
   }
 
-  .tool-category:nth-child(3) {
-      grid-column: span 2; /* Makes the third category take the full width */
-  }
 }
 
 
