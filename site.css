@@ -324,6 +324,7 @@ p, .faq-answer, .dropdown-button, .description, .tools-subtitle, .about-intro {
   max-width: 1000px;
   margin: 0 auto;
   justify-content: center;
+  justify-items: center;
 }
 
 .tool-category {
