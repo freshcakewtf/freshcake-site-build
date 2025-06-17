@@ -319,10 +319,11 @@ p, .faq-answer, .dropdown-button, .description, .tools-subtitle, .about-intro {
 
 .tools-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Always 3 columns */
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
   max-width: 1000px;
   margin: 0 auto;
+  justify-content: center;
 }
 
 .tool-category {
@@ -372,14 +373,25 @@ p, .faq-answer, .dropdown-button, .description, .tools-subtitle, .about-intro {
 }
 
 .tool-category li {
-    font-size: 1rem;
-    margin: 10px 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: color 0.3s;
-    font-family: 'Roboto', sans-serif;
-    color: #ded1d8;
+  font-size: 1rem;
+  margin: 10px 0;
+  display: flex;
+  margin-bottom: 20px;
+  justify-content: flex-start;
+  text-align: left;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  font-family: 'Roboto', sans-serif;
+  color: #ded1d8;
+}
+
+.tool-category li::before {
+  content: "•";
+  position: absolute;
+  left: -20px;
+  color: #ded1d8;
+  font-size: 1.2rem;
 }
 
 .tool-icon {
@@ -986,4 +998,12 @@ section,
     opacity: 0;
   }
 
+  .tool-category li {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .tool-category li::before {
+    content: none;
+  }
 }
